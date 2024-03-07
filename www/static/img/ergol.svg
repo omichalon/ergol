@@ -1,11 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" class="iso intlBackslash dk"
+<svg xmlns="http://www.w3.org/2000/svg" class="iso intlBackslash full"
      platform="gnu" theme="reach"
      viewBox="0 0 900 300">
 
   <style>
-    :root {
-      color-scheme: light dark;
-    }
+    :root { color-scheme: light dark; }
+
     rect, path {
       stroke: #666;
       stroke-width: .5px;
@@ -221,46 +220,30 @@
     [platform="gnu"] #MetaRight,
     [platform="win"] #MetaRight, #AltRight  { transform: translate(675px, 0px); }
 
-    g:target rect, .press rect,
-    g:target path, .press path {
-      fill: #aad;
-    }
-
+    /* optional color theme */
     [theme="reach"] .numberKey rect { fill: hsl( 42, 100%, 95%); }
     [theme="reach"] .letterKey rect { fill: hsl(222, 100%, 95%); }
     [theme="reach"] .homeKey   rect { fill: hsl(222, 100%, 90%); }
 
-    /* dimmed AltGr + bold dead keys */
-    .level3, .level4 { fill: blue; opacity: .4; }
-    .level5, .level6 { fill: green; }
-    .deadKey {
-      fill: red;
-      font-size: 16px;
-      transform: translateY(-3px);
-    }
-    .diacritic  {
-      font-size: 24px;
-      font-weight: bolder;
-      transform: translateY(8px);
-    }
+    /* hide level3-6 by default */
+    .level3, .level4, .level5, .level6 { display: none; }
 
-    /* hide Level4 (Shift+AltGr) unless AltGr is pressed */
-    .level4        { display: none; }
-    .altgr .level4 { display: block; }
+    /* show 1dk */
+    .odk .level5,
+    .odk .level6 { display: block; }
 
-    /* highlight AltGr + Dead Keys
-    .dk .level1, .altgr .level1,
-    .dk .level2, .altgr .level2 { opacity: 0.25; }
-    .dk .level5, .altgr .level3,
-    .dk .level6, .altgr .level4 { opacity: 1; }
-    */
-    .dk .level3,
-    .dk .level4 { display: none; }
+    /* show 1dk and AltGr */
+    .full .level3,
+    .full .level5 { display: block; opacity: 1; }
+    .full .level5 { transform: translate(0px, -22.8px); }
+
+    /* show AltGr */
+    .altgr .level3,
+    .altgr .level4 { display: block; opacity: 1; }
 
     @media (prefers-color-scheme: dark) {
       rect, path { stroke: #777; fill: #444; }
       .specialKey, .specialKey rect, .specialKey path { fill: #333; }
-      g:target rect, .press rect, g:target path, .press path { fill: #558; }
       text { fill: #bbb; }
       .level3, .level4 { fill: #99f; }
       .level5, .level6 { fill: #6d6; }
@@ -440,6 +423,7 @@
         <g class="key" text-anchor="middle">
           <text x="12.8" y="20.6" class="level2">P</text>
           <text x="38.0" y="43.4" class="level3">$</text>
+          <text x="38.0" y="43.4" class="level5">ô</text>
         </g>
       </g>
       <g id="KeyT" class="letterKey" transform="translate(330)">
@@ -457,7 +441,7 @@
         <g class="key" text-anchor="middle">
           <text x="12.8" y="20.6" class="level2">J</text>
           <text x="38.0" y="43.4" class="level3">^</text>
-          <text x="38.0" y="20.6" class="level4 deadKey diacritic">^</text>
+          <text x="38.0" y="20.6" class="level4 deadKey">◌̂</text>
         </g>
       </g>
       <g id="KeyU" class="letterKey" transform="translate(450)">
@@ -465,7 +449,7 @@
         <g class="key" text-anchor="middle">
           <text x="12.8" y="20.6" class="level2">M</text>
           <text x="38.0" y="43.4" class="level3">&amp;</text>
-          <text x="38.0" y="43.4" class="level5">µ</text>
+          <text x="38.0" y="43.4" class="level5"> </text>
         </g>
       </g>
       <g id="KeyI" class="letterKey" transform="translate(510)">
@@ -481,9 +465,9 @@
         <rect width="52" height="52" rx="5" ry="5"/>
         <g class="key" text-anchor="middle">
           <text x="12.8" y="20.6" class="level2 deadKey">★</text>
-          <text x="38.0" y="43.4" class="level3">&quot;</text>
-          <text x="38.0" y="20.6" class="level4 deadKey diacritic">¨</text>
-          <text x="38.0" y="43.4" class="level5 deadKey diacritic">¨</text>
+          <text x="38.0" y="43.4" class="level3">'</text>
+          <text x="38.0" y="20.6" class="level4 deadKey">◌́</text>
+          <text x="38.0" y="43.4" class="level5 deadKey">◌̈</text>
         </g>
       </g>
       <g id="KeyP" class="letterKey" transform="translate(630)">
@@ -491,6 +475,7 @@
         <g class="key" text-anchor="middle">
           <text x="12.8" y="20.6" class="level2">F</text>
           <text x="38.0" y="43.4" class="level3">`</text>
+          <text x="38.0" y="20.6" class="level4 deadKey">◌̀</text>
           <text x="38.0" y="43.4" class="level5">û</text>
         </g>
       </g>
@@ -540,6 +525,7 @@
         <g class="key" text-anchor="middle">
           <text x="12.8" y="20.6" class="level2">S</text>
           <text x="38.0" y="43.4" class="level3">(</text>
+          <text x="38.0" y="20.6" class="level4">⁽</text>
           <text x="38.0" y="43.4" class="level5">é</text>
         </g>
       </g>
@@ -609,6 +595,7 @@
         <g class="key" text-anchor="middle">
           <text x="12.8" y="20.6" class="level2">U</text>
           <text x="38.0" y="43.4" class="level3">&quot;</text>
+          <text x="38.0" y="20.6" class="level4 deadKey">◌̈</text>
           <text x="38.0" y="43.4" class="level5">ù</text>
         </g>
       </g>
@@ -653,7 +640,7 @@
         <g class="key" text-anchor="middle">
           <text x="12.8" y="20.6" class="level2">Z</text>
           <text x="38.0" y="43.4" class="level3">~</text>
-          <text x="38.0" y="20.6" class="level4 deadKey diacritic">~</text>
+          <text x="38.0" y="20.6" class="level4 deadKey">◌̃</text>
           <text x="38.0" y="43.4" class="level5"> </text>
         </g>
       </g>
@@ -711,7 +698,7 @@
         <g class="key" text-anchor="middle">
           <text x="12.8" y="20.6" class="level2">G</text>
           <text x="38.0" y="43.4" class="level3">;</text>
-          <text x="38.0" y="43.4" class="level5"> </text>
+          <text x="38.0" y="43.4" class="level5 deadKey">α</text>
         </g>
       </g>
       <g id="Period" class="letterKey" transform="translate(615)">
@@ -781,15 +768,17 @@
       <rect width="247" height="52" x="60" class="ks" rx="5" ry="5"/>
       <rect width="187" height="52" x="60" class="jis" rx="5" ry="5"/>
       <g class="key" text-anchor="begin">
-        <text x="11.0" y="43.4" class="level1 ansi">espace</text>
+        <text x="11.0"  y="43.4" class="level1 ansi">espace</text>
         <text x="-49.0" y="43.4" class="level2 ol60">espace</text>
-        <text x="11.0" y="43.4" class="level1 ol50 ol40">espace</text>
-        <text x="11.0" y="20.6" class="level2 ansi">insécable fine</text>
+        <text x="11.0"  y="43.4" class="level1 ol50 ol40">espace</text>
+        <text x="11.0"  y="20.6" class="level2 ansi">insécable fine</text>
         <text x="-49.0" y="20.6" class="level2 ol60">insécable fine</text>
-        <text x="11.0" y="20.6" class="level2 ol50 ol40">insécable fine</text>
+        <text x="11.0"  y="20.6" class="level2 ol50 ol40">insécable fine</text>
       </g>
       <g class="key" text-anchor="end">
+        <text x="356.0" y="43.4" class="level3 ansi">espace</text>
         <text x="356.0" y="43.4" class="level5 ansi">apostrophe typo (’)</text>
+        <text x="251.0" y="43.4" class="level3 ol60 ol50 ol40">espace</text>
         <text x="251.0" y="43.4" class="level5 ol60 ol50 ol40">apostrophe (’)</text>
       </g>
     </g>

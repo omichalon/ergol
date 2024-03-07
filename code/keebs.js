@@ -32,8 +32,9 @@ window.addEventListener('DOMContentLoaded', () => {
    * <x-keyboard> 'geometry' property.
    *
    * An additional class may be specified to display a specific layer:
-   *  - 1dk   => 'dk'
-   *  - AltGr => 'altgr'
+   *  - 'odk'   => 1dk only
+   *  - 'full'  => 1dk + AltGr
+   *  - 'altgr' => AltGr only
    *
    * This optional class is retrieved from the preview <object> class property.
    *
