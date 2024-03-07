@@ -235,12 +235,7 @@
     .level5, .level6 { fill: green; }
     .deadKey {
       fill: red;
-      font-size: 16px;
-      transform: translateY(-3px);
-    }
-    .diacritic  {
-      font-size: 24px;
-      font-weight: bolder;
+      font-size: 22px;
     }
 
     /* hide Level4 (Shift+AltGr) unless AltGr is pressed */
@@ -444,6 +439,7 @@
         <g class="key" text-anchor="middle">
           <text x="12.8" y="20.6" class="level2">P</text>
           <text x="38.0" y="43.4" class="level3">$</text>
+          <text x="38.0" y="43.4" class="level5">ô</text>
         </g>
       </g>
       <g id="KeyT" class="letterKey" transform="translate(330)">
@@ -461,7 +457,7 @@
         <g class="key" text-anchor="middle">
           <text x="12.8" y="20.6" class="level2">J</text>
           <text x="38.0" y="43.4" class="level3">^</text>
-          <text x="38.0" y="20.6" class="level4 deadKey diacritic">^</text>
+          <text x="38.0" y="20.6" class="level4 deadKey">^</text>
         </g>
       </g>
       <g id="KeyU" class="letterKey" transform="translate(450)">
@@ -486,8 +482,8 @@
         <g class="key" text-anchor="middle">
           <text x="12.8" y="20.6" class="level2 deadKey">★</text>
           <text x="38.0" y="43.4" class="level3">&quot;</text>
-          <text x="38.0" y="20.6" class="level4 deadKey diacritic">¨</text>
-          <text x="38.0" y="43.4" class="level5 deadKey diacritic">¨</text>
+          <text x="38.0" y="20.6" class="level4 deadKey">◌̈</text>
+          <text x="38.0" y="43.4" class="level5 deadKey">◌̈</text>
         </g>
       </g>
       <g id="KeyP" class="letterKey" transform="translate(630)">
@@ -657,7 +653,7 @@
         <g class="key" text-anchor="middle">
           <text x="12.8" y="20.6" class="level2">Z</text>
           <text x="38.0" y="43.4" class="level3">~</text>
-          <text x="38.0" y="20.6" class="level4 deadKey diacritic">~</text>
+          <text x="38.0" y="20.6" class="level4 deadKey">~</text>
           <text x="38.0" y="43.4" class="level5"> </text>
         </g>
       </g>
@@ -715,7 +711,7 @@
         <g class="key" text-anchor="middle">
           <text x="12.8" y="20.6" class="level2">G</text>
           <text x="38.0" y="43.4" class="level3">;</text>
-          <text x="38.0" y="43.4" class="level5"> </text>
+          <text x="38.0" y="43.4" class="level5 deadKey">α</text>
         </g>
       </g>
       <g id="Period" class="letterKey" transform="translate(615)">
