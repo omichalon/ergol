@@ -50,6 +50,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const gGeometry = document.querySelector('#geometry');
   const gLayout   = document.querySelector('#layout');
   const gDict     = document.querySelector('#dict');
+  const gQuotes   = document.querySelector('#quotes');
 
   const gKeyList  = document.querySelector('.key_list');
   const gStatus   = document.querySelector('.status');
@@ -59,6 +60,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   let gKeyLayout = undefined;
   let gDictionary = {
+    quotes:   undefined,
     words:    undefined,
     trigrams: undefined,
     bigrams:  undefined,
@@ -89,6 +91,19 @@ window.addEventListener('DOMContentLoaded', () => {
       .then(response => response.json())
       .then(data => {
         gDictionary.words = data.words;
+      });
+  };
+
+  // fetch MonkeyType quotes
+  const fetchQuotes = () => {
+    const lang = gDict.value.split(',')[1].split('_')[0];
+    return fetch(`./${lang}_quotes.json`)
+      .then(response => response.json())
+      .then(data => {
+        gDictionary.quotes = data.quotes
+          .filter(item => (item.length > 75 && item.length < 150))
+          .map(item => item.text);
+        console.log(gDictionary.quotes);
       });
   };
 
@@ -137,7 +152,7 @@ window.addEventListener('DOMContentLoaded', () => {
   };
 
   const showKeys = () => {
-    const isActive = idx => idx >= 0 && idx < gLessonLevel;
+    const isActive = idx => gQuotes.checked || (idx >= 0 && idx < gLessonLevel);
 
     const serializeKey = (key, idx) => {
       const action = gKeyLayout.keymap[key][0];
@@ -152,25 +167,30 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  const showLesson = () => {
-    gLessonStartTime = undefined;
-    gLesson.innerHTML = '';
-    if (gLessonWords.length === 0) {
-      return;
-    }
+  const randomElement = array => array[array.length * Math.random() | 0];
 
-    let lessonText = '';
-    while(lessonText.length < 120) {
-      lessonText += gLessonWords[gLessonWords.length * Math.random() | 0] + ' ';
-    }
-    gLesson.innerHTML = Array.from(lessonText.slice(0, -1))
+  const startLesson = (text) => {
+    gLessonStartTime = undefined;
+    gLesson.innerHTML = Array.from(text)
       .map(char => char == ' ' ? '<span class="space"></span>'
                                : `<span>${char}</span>`)
       .join('');
-
     gLessonCurrent = gLesson.firstElementChild;
     gLessonCurrent.id = 'current';
     gPendingError = false;
+  };
+
+  const showLesson = () => {
+    if (gQuotes.checked) {
+      startLesson(randomElement(gDictionary.quotes));
+    }
+    else if (gLessonWords.length > 0) {
+      let lessonText = '';
+      while(lessonText.length < 120) {
+        lessonText += randomElement(gLessonWords) + ' ';
+      }
+      startLesson(lessonText.slice(0, -1));
+    }
   };
 
   const goNextChar = value => {
@@ -215,7 +235,9 @@ window.addEventListener('DOMContentLoaded', () => {
     const cpm = Math.round(chars / elapsed);
     const wpm = Math.round(words / elapsed);
     const prc = 100 - Math.round(1000 * errors / chars) / 10;
-    gStatus.innerHTML = `${wpm} wpm, ${cpm} cpm <progress value="${cpm}" max="${MIN_CPM_SPEED}">${cpm}</progress>, ${prc} % <progress value="${prc}" max="${MIN_PRECISION}">${prc}%</progress>`;
+    gStatus.innerHTML = `${wpm} wpm,
+      ${cpm} cpm <progress value="${cpm}" max="${MIN_CPM_SPEED}">${cpm}</progress>,
+      ${prc} % <progress value="${prc}" max="${MIN_PRECISION}">${prc}%</progress>`;
 
     if (cpm >= MIN_CPM_SPEED && prc >= MIN_PRECISION) {
       moreQuacks();
@@ -271,7 +293,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     window.location.hash = `#${gLayout.value}`;
 
-    Promise.all([fetchNgrams(), fetchWords(), fetchLayout()])
+    Promise.all([fetchNgrams(), fetchWords(), fetchQuotes(), fetchLayout()])
       .then(setLessonLevel);
   };
 
