@@ -28,9 +28,11 @@ apparaît dans la barre de langues (indicateur de la barre des tâches).
 
 ### macOS : [ergol.keylayout][]
 
-Enregistrer dans `/Library/Keyboard Layouts` et relancer la session.
-La disposition de clavier est disponible dans les préférences sous
-« Clavier », puis « Méthodes de saisie ».
+Enregistrer dans `/Library/Keyboard Layouts` et relancer la session.  La
+disposition de clavier est disponible dans les préférences sous « Clavier »,
+« Méthodes de saisie », `+` (ajouter une nouvelle disposition), et enfin «
+Autres » .
+
 On peut aussi l’enregistrer dans `~/Library/Keyboard Layouts`
 (pour le seul utilisateur courant), mais la disposition ne sera pas
 active au login.
@@ -81,7 +83,6 @@ Variante en A (« <i lang="en">angle-mod</i> »)
 Des pilotes incluant l’[angle-mod][] seront proposés. Il est d’ores et déjà
 possible d’appliquer cet angle-mod et bien d’autres fonctionnalités via
 [kanata][] et la configuration [Arsenik][].
-
 
 Résolution de problèmes
 --------------------------------------------------------------------------------
