@@ -239,7 +239,7 @@ function buildNGramDict(ngrammDict, layout, inverseLayout) {
     return rv;
 }
 
-function computeNGrams(keyboard, digrams, trigrams) {
+function computeNGrams(digrams, trigrams) {
     const ngrams = Object.fromEntries(NGRAM_CATEGORIES.map(digramType => [digramType, {}]));
 
     const keyFinger = {};
@@ -358,14 +358,14 @@ function computeNGrams(keyboard, digrams, trigrams) {
         }
     }
 
-    for (const [ngram, { keyCodes, frequency }] of Object.entries(realTrigrams)) {
+    for (const [ngram, { keyCodes, frequency }] of Object.entries(trigrams)) {
         if (keyCodes.includes('Space')) continue;
         const ngramType = getTrigramType(...keyCodes);
         ngrams[ngramType][ngram] = frequency;
     }
 }
 
-function computeHeatmap(symbols, keyboard, inverseLayout) {
+function computeHeatmap(symbols, inverseLayout) {
     const unsupportedChars = {};
     const keyCount = {};
     let totalUnsupportedChars = 0;
@@ -427,8 +427,8 @@ async function test() {
     console.log(symbols);
     console.log(Object.values(symbols).map(({ frequency }) => frequency).reduce((e, acc) => e + acc));
 
-    console.log(computeHeatmap(corpus.symbols, keyboard, inverseLayout));
-    console.log(computeNGrams(keyboard, digrams, trigrams));
+    console.log(computeHeatmap(corpus.symbols, inverseLayout));
+    console.log(computeNGrams(digrams, trigrams));
 }
 
 test()
