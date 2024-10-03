@@ -62,6 +62,7 @@ const NGRAM_CATEGORIES = [
     'badRedirect',     // Redirect that doesn’t use the index
     'sfs',             // Same Finger Skipgram (sfb with other key in the middle)
     'sks',             // Same Key Skipgram (skb with other key in the middle)
+    'doubleRoll', // TODO: delete this line later
     'other',           // unused, is just two simple digrams, nothing to note.
 ];
 
@@ -327,11 +328,12 @@ function computeNGrams(digrams, trigrams) {
         const firstRollIsInward = fingers[0] > fingers[1];
         const secondRollIsInward = fingers[1] > fingers[2];
         if (firstRollIsInward !== secondRollIsInward)
-        return [prevFinger, currFinger, nextFinger].some(finger => finger[1] === '2')
-            ? 'redirect'
-            : 'badRedirect';
+            return [prevFinger, currFinger, nextFinger].some(finger => finger[1] === '2')
+                ? 'redirect'
+                : 'badRedirect';
 
-        return 'other';
+        // return 'other';
+        return 'doubleRoll';
     };
 
     const getFingerPosition = ([hand, finger]) =>
@@ -363,6 +365,8 @@ function computeNGrams(digrams, trigrams) {
         const ngramType = getTrigramType(...keyCodes);
         ngrams[ngramType][ngram] = frequency;
     }
+
+    return ngrams;
 }
 
 function computeHeatmap(symbols, inverseLayout) {
@@ -408,14 +412,26 @@ function computeHeatmap(symbols, inverseLayout) {
         ]
     });
 
-    console.log(keyCount);
-    console.log(Object.values(keyCount).reduce((e, acc) => e + acc));
+    // console.log(keyCount);
+    // console.log(Object.values(keyCount).reduce((e, acc) => e + acc));
     // console.log(extraKeysFrequency);
 
     return res;
 }
 
-async function test() {
+export function getLayoutStats(layout, corpus) {
+    const inverseLayout = new ReverseKeyboardLayout(layout);
+
+    const digrams  = buildNGramDict(corpus.digrams, layout, inverseLayout);
+    const trigrams = buildNGramDict(corpus.trigrams, layout, inverseLayout);
+
+    return {
+        heatmap: computeHeatmap(corpus.symbols, inverseLayout),
+        ngrams:  computeNGrams(digrams, trigrams),
+    };
+}
+
+export async function test() {
     const layout = await fetch('../layouts/ergol.json').then(response => response.json());
     const corpus = await fetch('../corpus/fr.json').then(response => response.json());
     const inverseLayout = new ReverseKeyboardLayout(layout);
@@ -431,4 +447,4 @@ async function test() {
     console.log(computeNGrams(digrams, trigrams));
 }
 
-test()
+// test()

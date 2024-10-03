@@ -97,8 +97,13 @@ class CollapsableTable extends HTMLElement {
     });
   }
 
-  updateTableData(tableSelector, title, values, precision) {
-    const table = this.shadowRoot.querySelector(tableSelector);
+  updateTableData(id, title, values, precision = 3) {
+    const total = this.shadowRoot.querySelector(`small #${id}`);
+    const table = this.shadowRoot.querySelector(`#wrapper #${id}`);
+
+    console.log(id);
+    console.log(`#wrapper #${id}`);
+    console.log(this.shadowRoot.querySelector(`#wrapper #${id}`));
 
     table.innerHTML =
       `<tr><th colspan='2'>${title}</td></tr>` +
@@ -110,6 +115,12 @@ class CollapsableTable extends HTMLElement {
             `<tr><td>${digram}</td><td>${freq.toFixed(precision)}</td></tr>`,
         )
         .join('');
+
+    total.innerText =
+      Object.values(values)
+        .reduce((e, acc) => e + acc, 0)
+        .toFixed(precision)
+     + '%';
 
     this.shadowRoot.querySelector('button').style.display =
       table.offsetHeight > this.maxHeightCollapsed ? 'block' : 'none';
