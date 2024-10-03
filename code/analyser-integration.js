@@ -49,6 +49,22 @@ window.addEventListener('DOMContentLoaded', () => {
         .getElementById(tableId)
         .updateTableData(ngramType, title, values);
     }
+
+    document.querySelector('#load stats-canvas').renderData({
+      values: stats.heatmap.loadGroups,
+      maxValue: 25,
+      precision: 1,
+      sumMethod: 'group',
+    });
+
+    document.querySelector('#sfu stats-canvas').renderData({
+      values: stats.ngrams.totalSfuSkuPerFinger,
+      maxValue: 4,
+      precision: 2,
+      sumMethod: 'quality',
+      flipVertically: true,
+      detailedValues: true,
+    });
   }
 
   window.addEventListener('hashchange', applyHashState);

@@ -340,7 +340,7 @@ function computeNGrams(digrams, trigrams) {
         hand === 'l' ? [0, 5 - Number(finger)] : [1, Number(finger) - 2];
 
     // JS, I know you suck at FP, but what the fuck is that, man??
-    const totalSfuSkuPerFinger = Array(2).fill(0).map(_ =>
+    ngrams.totalSfuSkuPerFinger = Array(2).fill(0).map(_ =>
         Array(4).fill(0).map(_ => ({ "good": 0, "meh": 0, "bad": 0 }))
     );
 
@@ -351,12 +351,12 @@ function computeNGrams(digrams, trigrams) {
 
         if (ngramType === 'sfb') {
             const [groupIndex, itemIndex] = getFingerPosition(keyFinger[keyCodes[0]]);
-            totalSfuSkuPerFinger[groupIndex][itemIndex].bad += frequency;
+            ngrams.totalSfuSkuPerFinger[groupIndex][itemIndex].bad += frequency;
         }
 
         if (ngramType === 'skb') {
             const [groupIndex, itemIndex] = getFingerPosition(keyFinger[keyCodes[0]]);
-            totalSfuSkuPerFinger[groupIndex][itemIndex].meh += frequency;
+            ngrams.totalSfuSkuPerFinger[groupIndex][itemIndex].meh += frequency;
         }
     }
 
@@ -412,10 +412,6 @@ function computeHeatmap(symbols, inverseLayout) {
         ]
     });
 
-    // console.log(keyCount);
-    // console.log(Object.values(keyCount).reduce((e, acc) => e + acc));
-    // console.log(extraKeysFrequency);
-
     return res;
 }
 
@@ -430,21 +426,3 @@ export function getLayoutStats(layout, corpus) {
         ngrams:  computeNGrams(digrams, trigrams),
     };
 }
-
-export async function test() {
-    const layout = await fetch('../layouts/ergol.json').then(response => response.json());
-    const corpus = await fetch('../corpus/fr.json').then(response => response.json());
-    const inverseLayout = new ReverseKeyboardLayout(layout);
-
-    const symbols  = buildNGramDict(corpus.symbols, layout, inverseLayout);
-    const digrams  = buildNGramDict(corpus.digrams, layout, inverseLayout);
-    const trigrams = buildNGramDict(corpus.trigrams, layout, inverseLayout);
-
-    console.log(symbols);
-    console.log(Object.values(symbols).map(({ frequency }) => frequency).reduce((e, acc) => e + acc));
-
-    console.log(computeHeatmap(corpus.symbols, inverseLayout));
-    console.log(computeNGrams(digrams, trigrams));
-}
-
-// test()
