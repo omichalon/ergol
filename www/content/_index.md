@@ -117,7 +117,7 @@ Témoignages
 [Lafayette]: https://qwerty-lafayette.org
 [Bépo]:      https://bepo.fr
 
-[AntoineÐ]:  https://mastodon.social/@AntoineD@kwak.cab
+[AntoineÐ]:  https://kwak.cab/notes/9yvs1mb0dg47c0k0
 [vjousse]:   https://vimebook.com/fr
 [geobert]:   https://geobert.fr/posts/l-apres-bepo-ergo-l/
 [aldoo]:     https://github.com/ald0o/
