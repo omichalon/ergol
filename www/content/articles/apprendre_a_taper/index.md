@@ -107,7 +107,7 @@ le site que vous préférez dans la liste ci-dessus. Il vaut mieux s’entraîne
 d’un coup. La deuxième méthode va être épuisante et vous risquez de vite
 oublier votre entraînement (un peu comme étudier la veille d’un examen).
 
-Selon moi, il y n’a pas besoin d’apprendre l’entièreté du layout sur
+Selon moi, il n’y a pas besoin d’apprendre l’entièreté du layout sur
 ces sites – les 12 lettres les plus fréquentes suffisent, le reste peut
 s’apprendre sur le tas –, mais certain·e·s restent jusqu’au bout, souvent pour
 le challenge, pour travailler la précision ou juste pour gagner
