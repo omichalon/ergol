@@ -110,7 +110,7 @@ principe [1DFH][], auquel nous autres Ergonautes sommes si attaché·e·s.
 Un bigramme est un enchainement de deux touches.
 Tout bigramme appartient à l’une des catégories suivantes :
 
-- alternance de mains : une touche sous chaque main :
+- alternance de mains : une touche sous chaque main ;
 - bigramme de même main : les touches sont sous deux doigts différents d’une
   même main ;
 - bigramme de même doigt (SFB, pour <i lang="en">same-finger bigram</i>) : deux
@@ -614,7 +614,7 @@ les résoudre.
 
 Les itérations de développement ont été facilitées par :
 
-- [x‑keyboard][], pour tester nos layouts ;
+- [x‑keyboard][], pour tester nos <i lang="en">layouts</i> ;
 - [kalamine][], pour générer et installer les pilotes ;
 - [notre analyseur maison](/stats).
 
@@ -690,8 +690,9 @@ lui-même dérivé de [KLAtest][] ([source][KLAtest-source]) par [Xay Vong][],
 alias Shena’Fu ou Den. Sans accès au code, difficile d’évaluer ce qu’apporte
 KLAnext à l’original — mais, comme évoqué plus haut, il ne nous semble pas
 pertinent. C’est en référence aux failles de KLAnext que la plaisanterie
-« *[Qwerty-Lafayette est le meilleur layout du monde !][lafayette_mldm]* » est
-devenue récurrente dans la communauté ergonaute. :-)
+« *[Qwerty-Lafayette est le meilleur <i lang="en">layout</i> du
+monde !][lafayette_mldm]* » est devenue récurrente dans la communauté ergonaute.
+:-)
 
 Plus intéressant, [SteveP][] a développé un [fork libre de KLA][KLA-SteveP]
 ([source][KLA-SteveP-source]) et détaille précisément les [corrections
@@ -843,7 +844,7 @@ slogan, c’est *littéralement* ce qu’on a fait : *d’abord* caler l’erg
 ([1DFH], raccourcis clavier…), *puis* optimiser les mouvements de doigts.
 
 Un grand merci à [Nuclear Squid][], non seulement pour avoir initié et dirigé le
-projet Ergo‑L, mais plus prosaïquement pour sa contibution à la rédaction des
+projet Ergo‑L, mais plus prosaïquement pour sa contribution à la rédaction des
 chapitres sur les métriques et les analyseurs. Que le Grand Palmipède parsème
 son chemin de pétales de roses.
 
