@@ -46,11 +46,11 @@ soit devenir insupportables.
 +===============+:=====:+:=====:+:=====:+:=====:+:=====:+=============================================+
 | [Azerty][]    |   ·   |  oui  |   ·   |   ·   |   ·   | - (fr) mauvais support typographique        |
 |               |       |       |       |       |       | - charge de l’auriculaire gauche > 10 %     |
-|               |       |       |       |       |       | - digrammes de même doigt > 6 %             |
+|               |       |       |       |       |       | - bigrammes de même doigt > 6 %             |
 |               |       |       |       |       |       | - chiffres en Shift                         |
 +---------------+-------+-------+-------+-------+-------+---------------------------------------------+
 | [Lafayette][] |  oui  |  oui  |   ·   |   ·   |  oui  | - charge déséquilibrée                      |
-|               |       |       |       |       |       | - digrammes de même doigt > 6 %             |
+|               |       |       |       |       |       | - bigrammes de même doigt > 6 %             |
 +---------------+-------+-------+-------+-------+-------+---------------------------------------------+
 | [Ergo‑L][]    |  oui  |  oui  |  oui  |  oui  |  oui  | - (fr) `tui`, `bo`                          |
 |               |       |       |       |       |       | - (en) `eas`, `we`                          |
@@ -63,13 +63,13 @@ soit devenir insupportables.
 |               |       |       |       |       |       | - (en) `you`, `was`, `ho`                   |
 +---------------+-------+-------+-------+-------+-------+---------------------------------------------+
 | [Bépolar][]   |  oui  |   ·   |  oui  |   ·   |  oui  | - charge de l’index gauche                  |
-|               |       |       |       |       |       | - (fr) digrammes de même doigt > 2 %        |
-|               |       |       |       |       |       | - (en) digrammes de même doigt > 4 %        |
+|               |       |       |       |       |       | - (fr) bigrammes de même doigt > 2 %        |
+|               |       |       |       |       |       | - (en) bigrammes de même doigt > 4 %        |
 +---------------+-------+-------+-------+-------+-------+---------------------------------------------+
 | [Bépo][]      |   ·   |   ·   |  oui  |   ·   |   ·   | - déviations ulnaires                       |
 |               |       |       |       |       |       | - charge de l’auriculaire droit > 10 %      |
 |               |       |       |       |       |       | - charge de l’index gauche > 20 %           |
-|               |       |       |       |       |       | - digrammes de même doigt > 2 %             |
+|               |       |       |       |       |       | - bigrammes de même doigt > 2 %             |
 |               |       |       |       |       |       | - (en) rédhibitoire (`wh`)                  |
 |               |       |       |       |       |       | - chiffres en Shift                         |
 +---------------+-------+-------+-------+-------+-------+---------------------------------------------+
@@ -151,8 +151,8 @@ l’anglais. Ergo‑L a la palme du confort.
 Bépo et toutes ses variantes présentent les mêmes [défauts d’ergonomie][] :
 
 - placement de lettres excentrées sur les 6<sup>e</sup> et 7<sup>e</sup>
- colonnes :
-  - compatibilité délicate avec la plupart des claviers ergonomiques ;
+  colonnes :
+  - [compatibilité délicate][] avec la plupart des claviers ergonomiques ;
   - déviations ulnaires pouvant devenir douloureuses ;
 - charge importante de l’auriculaire droit (> 11 % en français).
 
@@ -170,24 +170,30 @@ serait une permutation `h,’`, pour faire passer le `h` de [>] à [O].
 - 2024-02-03
   https://discord.com/channels/794732334879473684/1202877504822579240/1203391939009847357
   On s’en branle du H.
-- 2024-01-27
-  https://discord.com/channels/794732334879473684/794734985122152478/1200680341363494972
-  Moi aussi, je peux modifier légèrement Optimot pour optimiser un peu plus pour
-  l’anglais (mais au détriment du français). Mais ce n’est pas mon choix parce
-  que nous sommes en France et que je m’adresse à des personnes qui écrivent
-  d’abord en français
 -->
 
 [Note]{id="optimot_en"} : l’auteur d’Optimot considère que sa disposition est
-optimisée pour l’anglais au motif qu’elle obtiendrait une bonne note globale sur
-KLAnext ; mais pour nous, [la heatmap est inadaptée][1] (lettres fréquentes sur
-la rangée inférieure) et de nombreux digrammes courants sont trop inconfortables
-pour pouvoir parler réellement d’optimisation (`th`, `yo`, `ay`, `by`, `ok`, 
-`ak`, `ki`/`ik`/`ike`). Elle est *utilisable*, mais pas *optimisée* pour ça.
+optimisée pour l’anglais au motif qu’elle obtiendrait une bonne [note globale
+sur KLAnext][] ; mais pour nous, [la heatmap est inadaptée][heatmap] (lettres
+fréquentes sur la rangée inférieure) et de nombreux bigrammes courants sont trop
+inconfortables pour pouvoir parler réellement d’optimisation (`th`, `yo`, `ay`,
+`by`, `ok`, `ak`, `ki`/`ik`/`ike`). Elle est *utilisable*, mais pas *optimisée*
+pour ça. Et d’ailleurs, son auteur reconnait que l’anglais n’est qu’un objectif
+secondaire :
+
+> Moi aussi, je peux modifier légèrement Optimot pour optimiser un peu plus pour
+> l’anglais (mais au détriment du français). Mais ce n’est pas mon choix parce
+> que nous sommes en France et que je m’adresse à des personnes qui écrivent
+> d’abord en français.
+
+<!--
+- 2024-01-27
+  https://discord.com/channels/794732334879473684/794734985122152478/1200680341363494972
+-->
 
 [(?)]:     #optimot_en
 [optimot]: ./optimot_fr.png
-[1]:       ./optimot_en.png
+[heatmap]: ./optimot_en.png
 
 **De notre point de vue :**
 
@@ -196,7 +202,9 @@ pour pouvoir parler réellement d’optimisation (`th`, `yo`, `ay`, `by`, `ok`,
 - pour les Bépoètes qui n’ont pas de douleurs, Optimot apporte une optimisation
   *très* supérieure en français et est bien plus utilisable en anglais ;
 - pour les Bépoètes qui ont des douleurs ou qui souhaitent tenter l’expérience
-  [1DFH][], [Bépolar][] sera une alternative intéressante et très vite apprise.
+  1DFH, [Bépolar][] sera une alternative intéressante et très vite apprise ; et
+  [Erglace][] n’aura que des avantages sur Optimot, y compris sur ses propres
+  métriques.
 
 [ergo‑l]:     /
 [bépo]:       /bepo
@@ -210,3 +218,6 @@ pour pouvoir parler réellement d’optimisation (`th`, `yo`, `ay`, `by`, `ok`,
 [touche morte]:        /presentation#caractères-accentués
 [symboles]:            /presentation#couche-symboles
 [défauts d’ergonomie]: /bepo/#ergonomie
+
+[compatibilité délicate]:   /claviers/#les-limitations-de-bépo-béopy-optimot
+[note globale sur KLAnext]: /articles/analyse_et_optimisation/#lapproche-optimot
