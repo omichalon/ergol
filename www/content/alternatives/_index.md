@@ -77,7 +77,7 @@ soit devenir insupportables.
 |               |       |       |       |       |       | - (fr) charge de l’auriculaire droit > 10 % |
 |               |       |       |       |       |       | - (en) charge déséquilibrée                 |
 |               |       |       |       |       |       | - chiffres en Shift                         |
-|               |       |       |       |       |       | - licence non libre                         |
+|               |       |       |       |       |       | - [licence non libre](https://optimot.fr/licence.html)|
 +---------------+-------+-------+-------+-------+-------+---------------------------------------------+
 
 <!-- do not remove the empty line above -->
