@@ -180,19 +180,19 @@ inconfortables pour une utilisation régulière (`th`, `yo`, `ay`, `by`, `ok`,
 `ak`, `ki`/`ik`/`ike`). Elle est *utilisable*, mais pas *optimisée* pour ça. Et
 d’ailleurs, son auteur reconnait que l’anglais n’est qu’un objectif secondaire :
 
+<!-- 2024-01-27
+https://discord.com/channels/794732334879473684/794734985122152478/1200680341363494972
+-->
 > Je peux modifier légèrement Optimot pour optimiser un peu plus pour l’anglais
 > (mais au détriment du français). Mais ce n’est pas mon choix parce que nous
 > sommes en France et que je m’adresse à des personnes qui écrivent d’abord en
 > français.
 
-<!--
-- 2024-01-27
-  https://discord.com/channels/794732334879473684/794734985122152478/1200680341363494972
--->
-
 [(?)]:     #optimot_en
 [optimot]: ./optimot_fr.png
 [heatmap]: ./optimot_en.png
+
+---
 
 **De notre point de vue :**
 
