@@ -101,7 +101,7 @@ sont définis dans le glossaire.
 
 ### Blocs de citation
 
-Les blocs de citation <`>` en Markdown> doivent être suivi d’un paragraphe
+Les blocs de citation (`>` en Markdown) doivent être suivis d’un paragraphe
 donnant la source de la citation. Ce paragraphe est affiché de façon spécifique
 par notre feuille de style. L’usage est d’introduire la source de la citation
 avec un tiret cadratin en début de ligne.
