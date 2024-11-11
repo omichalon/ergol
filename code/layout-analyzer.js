@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
   let impreciseData = false;
 
   const substituteChars = {
-    '\u00a0': ' ', // ( ) no-break space
+    '\u00a0': ' ', // ( ) no-break space
     '\u202f': ' ', // ( ) narrow no-break space
 
     '\u00ab': '"', // («) left-pointing double angle quotation mark
@@ -548,10 +548,15 @@ window.addEventListener('DOMContentLoaded', () => {
   const setProp = (key, value) => {
     if (key === 'layout') {
       if (value) {
-        fetch(`../layouts/${value}.json`)
+        const layoutFolder = document
+          .querySelector(`#layout option[value="${value}"]`).dataset.folder;
+        fetch(`../layouts/${layoutFolder}/${value}.json`)
           .then(response => response.json())
           .then(data => {
-            inputField.placeholder = `zone de saisie ${value}`;
+            const selectedOption = document
+              .querySelector('#layout option:checked')
+              .textContent.trim() || value;
+            inputField.placeholder = `zone de saisie ${selectedOption}`;
             keyboard.setKeyboardLayout(
               data.keymap,
               data.deadkeys,
@@ -596,7 +601,7 @@ window.addEventListener('DOMContentLoaded', () => {
       IDs.map(prop => state[prop]).join('/').replace(/\/+$/, '');
   };
   const applyHashState = () => {
-    const hash = window.location.hash || '#/ergol//en+fr';
+    const hash = window.location.hash || '/ergol//en+fr';
     const hashState = hash.split('/').slice(1);
     IDs.forEach((key, i) => {
       setProp(key, hashState[i] || '');
