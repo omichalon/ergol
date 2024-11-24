@@ -80,7 +80,7 @@ window.addEventListener('DOMContentLoaded', () => {
       .then(response => response.json())
       .then(data => {
         gDictionary.trigrams = Object.keys(data.trigrams);
-        gDictionary.bigrams = Object.keys(data.digrams);
+        gDictionary.bigrams = Object.keys(data.bigrams);
       });
   };
 
