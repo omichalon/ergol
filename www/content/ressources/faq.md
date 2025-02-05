@@ -61,7 +61,7 @@ Bien que la touche [★]{.odk} soit qualifiée de [touche morte], elle est
 implémentée en utilisant un modificateur dit « _latch_ », qui s’utilise de deux
 façons :
 
-- soit en _relachant_ [★]{.odk} avant de taper la touche correspondant au
+- soit en _relâchant_ [★]{.odk} avant de taper la touche correspondant au
   caractère composé ;
 - soit en _maintenant_ [★]{.odk} enfoncée en tapant cette touche.
 
@@ -70,7 +70,7 @@ Exemple pour Ergo‑L :
 - [★]{.kbd} [A]{.kbd} → `à`
 - [★]{.kbd} (maintien) [A]{.kbd} [★]{.kbd} (relâche) → `à`
 
-#### J’utilise Wezterm et la touche [★]{.odk} imprimme un `o`. Que faire ?
+#### J’utilise Wezterm et la touche [★]{.odk} imprime un `o`. Que faire ?
 
 C’est une [régression connue][wezterm-bug], [un patch est en
 cours][wezterm-patch].
