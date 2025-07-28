@@ -44,8 +44,19 @@ footer = """
     font-size: 2em;
     line-height: 1.2em;
     margin: 0;
-    padding: 0;
-    text-wrap: break;
+    padding: 8px;
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    max-width: 100%;
+    max-height: 6em; /* Show about 5 lines of text */
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.02);
+    scroll-behavior: smooth;
   }
 
   #lesson span {
@@ -60,9 +71,35 @@ footer = """
   .done   { color: #999; }
   .error  { color: red; }
   .fixed  { color: green; }
-  .space::before {
-    content: "·";
+  .space {
     word-break: break-all;
+  }
+
+  .tab {
+    color: #888;
+    font-weight: bold;
+  }
+
+  .tab-spacing {
+    display: inline;
+    font-size: inherit;
+  }
+
+  .carriage-return {
+    color: #888;
+    font-weight: bold;
+  }
+
+  .custom-text-mode {
+    background-color: rgba(0, 122, 204, 0.1);
+    border-left: 4px solid #007acc;
+    padding-left: 8px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .custom-text-mode {
+      background-color: rgba(0, 122, 204, 0.2);
+    }
   }
 
   .key_list kbd {
@@ -80,16 +117,52 @@ footer = """
     color: gray;
   }
 
-  @media (prefers-color-scheme: dark) {
-    #lesson { color: white; }
+    @media (prefers-color-scheme: dark) {
+    #lesson { 
+      color: white; 
+      background-color: rgba(255, 255, 255, 0.05);
+    }
     .error  { color: #f44; }
     .fixed  { color: #9e1; }
+    .custom-text-mode {
+      background-color: rgba(0, 122, 204, 0.2);
+    }
+    #custom-text {
+      background-color: #2d2d2d;
+      color: white;
+      border-color: #555;
+    }
+    #toggle-custom-text {
+      background-color: #3d3d3d !important;
+      color: white !important;
+      border-color: #555;
+    }
   }
 </style>
 
 <div>
   <h2><span class="key_list"></span><span class="quacks">🦆</span></h2>
   <div class="status">·</div>
+</div>
+
+<div style="margin: 1em 0;">
+  <button id="toggle-custom-text" style="margin-bottom: 8px; padding: 6px 12px; 
+                                          background: #f0f0f0; color: #333; border: 1px solid #ccc; 
+                                          border-radius: 4px; cursor: pointer;">📝 Custom Text</button>
+  <div id="custom-text-panel" style="display: none;">
+    <textarea id="custom-text" placeholder="Paste your custom text here for typing practice..." 
+              style="width: 100%; min-height: 80px; font-family: monospace; font-size: 14px; 
+                     border: 1px solid #ccc; border-radius: 4px; padding: 8px; resize: vertical;"></textarea>
+    <div style="margin-top: 8px;">
+      <button id="use-custom-text" style="padding: 8px 16px; 
+                                          background: #007acc; color: white; border: none; 
+                                          border-radius: 4px; cursor: pointer;">Use Custom Text</button>
+      <button id="clear-custom-text" style="margin-left: 8px; padding: 8px 16px; 
+                                            background: #666; color: white; border: none; 
+                                            border-radius: 4px; cursor: pointer;">Clear & Use Words</button>
+      <small style="margin-left: 16px; color: #666;">Tip: Press Ctrl+Enter in textarea to use text</small>
+    </div>
+  </div>
 </div>
 
 <p id="lesson"></p>

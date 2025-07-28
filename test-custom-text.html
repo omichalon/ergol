@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Duck Typist - Custom Text Test</title>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        
+        /* Copy the relevant styles from the main page */
+        h2 .quacks {
+            float: right;
+            transition: transform 1s;
+            user-select: none;
+            cursor: grab;
+        }
+
+        h1.active .quacks,
+        h2.active .quacks {
+            transform: translateX(-1000%);
+        }
+
+        h2 {
+            margin: .5em 0 0;
+            font-size: 2em;
+        }
+
+        #lesson {
+            text-align: left;
+            font-family: monospace;
+            font-size: 2em;
+            line-height: 1.2em;
+            margin: 0;
+            padding: 8px;
+            word-wrap: break-word;
+            word-break: break-all;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
+            max-width: 100%;
+            max-height: 6em; /* Show about 5 lines of text */
+            overflow-y: auto;
+            overflow-x: hidden;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, 0.02);
+            scroll-behavior: smooth;
+        }
+
+        #lesson span {
+            box-sizing: border-box;
+        }
+
+        #current {
+            border-bottom: 2px solid;
+        }
+
+        #lesson { color: #333; }
+        .done   { color: #999; }
+        .error  { color: red; }
+        .fixed  { color: green; }
+        .space {
+            word-break: break-all;
+        }
+
+        .tab {
+            color: #888;
+            font-weight: bold;
+        }
+
+        .tab-spacing {
+            display: inline;
+            font-size: inherit;
+        }
+
+        .carriage-return {
+            color: #888;
+            font-weight: bold;
+        }
+
+        .custom-text-mode {
+            background-color: rgba(0, 122, 204, 0.1);
+            border-left: 4px solid #007acc;
+            padding-left: 8px;
+        }
+
+        .key_list kbd {
+            font-family: monospace;
+            text-transform: uppercase;
+            background-color: transparent;
+            display: inline-block;
+            margin: 0 2px;
+            padding: 0;
+            border: none;
+            cursor: pointer;
+        }
+
+        .key_list kbd.inactive {
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Duck Typist - Custom Text Test</h1>
+        
+        <div>
+            <h2><span class="key_list"></span><span class="quacks">🦆</span></h2>
+            <div class="status">·</div>
+        </div>
+
+        <div style="margin: 1em 0;">
+            <button id="toggle-custom-text" style="margin-bottom: 8px; padding: 6px 12px; 
+                                                    background: #f0f0f0; color: #333; border: 1px solid #ccc; 
+                                                    border-radius: 4px; cursor: pointer;">📝 Custom Text</button>
+            <div id="custom-text-panel" style="display: none;">
+                <textarea id="custom-text" placeholder="Paste your custom text here for typing practice..." 
+                          style="width: 100%; min-height: 80px; font-family: monospace; font-size: 14px; 
+                                 border: 1px solid #ccc; border-radius: 4px; padding: 8px; resize: vertical;"></textarea>
+                <div style="margin-top: 8px;">
+                    <button id="use-custom-text" style="padding: 8px 16px; 
+                                                        background: #007acc; color: white; border: none; 
+                                                        border-radius: 4px; cursor: pointer;">Use Custom Text</button>
+                    <button id="clear-custom-text" style="margin-left: 8px; padding: 8px 16px; 
+                                                          background: #666; color: white; border: none; 
+                                                          border-radius: 4px; cursor: pointer;">Clear & Use Words</button>
+                    <button onclick="simulateTyping()" style="margin-left: 8px; padding: 8px 16px; 
+                                                              background: #28a745; color: white; border: none; 
+                                                              border-radius: 4px; cursor: pointer;">Test Autoscroll</button>
+                    <small style="margin-left: 16px; color: #666;">Tip: Press Ctrl+Enter in textarea to use text</small>
+                </div>
+            </div>
+        </div>
+
+        <p id="lesson"></p>
+
+        <div>
+            <p>Test with this sample long text:</p>
+            <textarea style="width: 100%; height: 120px; font-family: monospace;">Hello, World!
+This is a test with multiple lines to demonstrate the auto-scrolling functionality.
+Line 3: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Line 4: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+Line 5: Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+Line 6: Duis aute irure dolor in reprehenderit in voluptate velit esse.
+Line 7: Excepteur sint occaecat cupidatat non proident, sunt in culpa.
+Line 8: Qui officia deserunt mollit anim id est laborum.
+Line 9: Sed ut perspiciatis unde omnis iste natus error sit voluptatem.
+Line 10: Accusantium doloremque laudantium, totam rem aperiam eaque ipsa.
+Line 11: Quae ab illo inventore veritatis et quasi architecto beatae.
+Line 12: This should demonstrate how the text scrolls as you type!
+Line 13: The lesson area will auto-scroll to keep the current character visible.
+Line 14: You should always see the keyboard below, even with long texts.
+Line 15: Final line to test the scrolling behavior completely.</textarea>
+        </div>
+    </div>
+
+    <script>
+        // Simplified version for testing
+        const gLesson = document.querySelector('#lesson');
+        const gCustomText = document.querySelector('#custom-text');
+        const gUseCustomText = document.querySelector('#use-custom-text');
+        const gClearCustomText = document.querySelector('#clear-custom-text');
+        const gToggleCustomText = document.querySelector('#toggle-custom-text');
+        const gCustomTextPanel = document.querySelector('#custom-text-panel');
+
+        let gCustomLessonText = null;
+        let gLessonCurrent = null;
+
+        const showLesson = () => {
+            gLesson.innerHTML = '';
+            
+            let lessonText = '';
+            
+            if (gCustomLessonText) {
+                lessonText = gCustomLessonText;
+            } else {
+                lessonText = "Click 'Custom Text' button to paste your own text for typing practice!";
+            }
+            
+            // Convert text to spans while preserving formatting
+            gLesson.innerHTML = Array.from(lessonText)
+                .map(char => {
+                    if (char === ' ') {
+                        return '<span class="space">·</span>';
+                    } else if (char === '\n') {
+                        return '<span class="carriage-return">↵</span><br>';
+                    } else if (char === '\r') {
+                        return '<span class="carriage-return">↵</span><br>';
+                    } else if (char === '\t') {
+                        return '<span class="tab">→</span><span class="tab-spacing">&nbsp;&nbsp;&nbsp;&nbsp;</span>';
+                    } else {
+                        // Escape HTML characters
+                        const escaped = char.replace(/&/g, '&amp;')
+                                           .replace(/</g, '&lt;')
+                                           .replace(/>/g, '&gt;')
+                                           .replace(/"/g, '&quot;')
+                                           .replace(/'/g, '&#39;');
+                        return `<span>${escaped}</span>`;
+                    }
+                })
+                .join('');
+
+            gLessonCurrent = gLesson.firstElementChild;
+            if (gLessonCurrent) {
+                gLessonCurrent.id = 'current';
+            }
+            
+            // Reset scroll position to top
+            gLesson.scrollTop = 0;
+        };
+
+        const scrollToCurrentChar = () => {
+            if (!gLessonCurrent) return;
+            
+            try {
+                // Get the current character's position relative to the lesson container
+                const currentRect = gLessonCurrent.getBoundingClientRect();
+                const lessonRect = gLesson.getBoundingClientRect();
+                
+                // Calculate relative position within the scrollable container
+                const relativeTop = currentRect.top - lessonRect.top;
+                const relativeBottom = relativeTop + currentRect.height;
+                
+                // Check if we need to scroll
+                const containerHeight = gLesson.clientHeight;
+                const scrollTop = gLesson.scrollTop;
+                
+                // If current character is below visible area (with some margin)
+                if (relativeBottom > containerHeight - 20) {
+                    // Scroll to keep the character in view, positioned in upper portion
+                    const targetScroll = scrollTop + relativeBottom - containerHeight * 0.7;
+                    gLesson.scrollTop = Math.max(0, targetScroll);
+                }
+                // If current character is above visible area
+                else if (relativeTop < 20) {
+                    // Scroll up to show the character with some margin
+                    const targetScroll = scrollTop + relativeTop - 20;
+                    gLesson.scrollTop = Math.max(0, targetScroll);
+                }
+            } catch (e) {
+                // Fallback: if getBoundingClientRect fails, try simple scrollIntoView
+                if (gLessonCurrent.scrollIntoView) {
+                    gLessonCurrent.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'nearest',
+                        inline: 'nearest'
+                    });
+                }
+            }
+        };
+
+        // Simple test function to simulate typing and test autoscroll
+        const simulateTyping = () => {
+            if (!gLessonCurrent) return;
+            
+            gLessonCurrent.classList.add('done');
+            gLessonCurrent.id = '';
+            gLessonCurrent = gLessonCurrent.nextSibling;
+            
+            if (gLessonCurrent) {
+                gLessonCurrent.id = 'current';
+                scrollToCurrentChar();
+                setTimeout(simulateTyping, 100); // Continue simulation
+            }
+        };
+
+        // Toggle custom text panel
+        gToggleCustomText.addEventListener('click', () => {
+            const isVisible = gCustomTextPanel.style.display !== 'none';
+            gCustomTextPanel.style.display = isVisible ? 'none' : 'block';
+            gToggleCustomText.style.background = isVisible ? '#f0f0f0' : '#007acc';
+            gToggleCustomText.style.color = isVisible ? '#333' : 'white';
+        });
+
+        // Custom text functionality
+        gUseCustomText.addEventListener('click', () => {
+            const customText = gCustomText.value.trim();
+            if (customText) {
+                gCustomLessonText = customText;
+                gLesson.classList.add('custom-text-mode');
+                gToggleCustomText.textContent = '📝 Custom Text (Active)';
+                gToggleCustomText.style.background = '#28a745';
+                gToggleCustomText.style.color = 'white';
+                showLesson();
+            }
+        });
+
+        gClearCustomText.addEventListener('click', () => {
+            gCustomText.value = '';
+            gCustomLessonText = null;
+            gLesson.classList.remove('custom-text-mode');
+            gToggleCustomText.textContent = '📝 Custom Text';
+            gToggleCustomText.style.background = '#f0f0f0';
+            gToggleCustomText.style.color = '#333';
+            showLesson();
+        });
+
+        // Allow Enter key in textarea to trigger use custom text
+        gCustomText.addEventListener('keydown', (event) => {
+            if (event.ctrlKey && event.key === 'Enter') {
+                event.preventDefault();
+                gUseCustomText.click();
+            }
+        });
+
+        // Initialize
+        showLesson();
+    </script>
+</body>
+</html>

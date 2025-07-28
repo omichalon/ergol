@@ -58,6 +58,11 @@ window.addEventListener('DOMContentLoaded', () => {
   const gQuacks   = document.querySelector('.quacks');
   const gLesson   = document.querySelector('#lesson');
   const gInput    = document;
+  const gCustomText = document.querySelector('#custom-text');
+  const gUseCustomText = document.querySelector('#use-custom-text');
+  const gClearCustomText = document.querySelector('#clear-custom-text');
+  const gToggleCustomText = document.querySelector('#toggle-custom-text');
+  const gCustomTextPanel = document.querySelector('#custom-text-panel');
 
   let gKeyLayout = undefined;
   let gDictionary = {
@@ -72,6 +77,7 @@ window.addEventListener('DOMContentLoaded', () => {
   let gLessonLevel     = undefined;
   let gQuackCount      = undefined
   let gPendingError    = false;
+  let gCustomLessonText = null; // Store custom text for lessons
 
   // fetch a kalamine corpus: symbols, bigrams, trigrams
   const fetchNgrams = () => {
@@ -160,22 +166,55 @@ window.addEventListener('DOMContentLoaded', () => {
   const showLesson = () => {
     gLessonStartTime = undefined;
     gLesson.innerHTML = '';
-    if (gLessonWords.length === 0) {
-      return;
-    }
-
+    
     let lessonText = '';
-    while(lessonText.length < 120) {
-      lessonText += gLessonWords[gLessonWords.length * Math.random() | 0] + ' ';
+    
+    if (gCustomLessonText) {
+      // Use custom text
+      lessonText = gCustomLessonText;
+    } else {
+      // Use original word-based lesson
+      if (gLessonWords.length === 0) {
+        return;
+      }
+      
+      while(lessonText.length < 120) {
+        lessonText += gLessonWords[gLessonWords.length * Math.random() | 0] + ' ';
+      }
+      lessonText = lessonText.slice(0, -1); // Remove trailing space
     }
-    gLesson.innerHTML = Array.from(lessonText.slice(0, -1))
-      .map(char => char == ' ' ? '<span class="space"></span>'
-                               : `<span>${char}</span>`)
+    
+    // Convert text to spans while preserving formatting
+    gLesson.innerHTML = Array.from(lessonText)
+      .map(char => {
+        if (char === ' ') {
+          return '<span class="space">·</span>';
+        } else if (char === '\n') {
+          return '<span class="carriage-return">↵</span><br>';
+        } else if (char === '\r') {
+          return '<span class="carriage-return">↵</span><br>';
+        } else if (char === '\t') {
+          return '<span class="tab">→</span><span class="tab-spacing">&nbsp;&nbsp;&nbsp;&nbsp;</span>';
+        } else {
+          // Escape HTML characters
+          const escaped = char.replace(/&/g, '&amp;')
+                             .replace(/</g, '&lt;')
+                             .replace(/>/g, '&gt;')
+                             .replace(/"/g, '&quot;')
+                             .replace(/'/g, '&#39;');
+          return `<span>${escaped}</span>`;
+        }
+      })
       .join('');
 
     gLessonCurrent = gLesson.firstElementChild;
-    gLessonCurrent.id = 'current';
+    if (gLessonCurrent) {
+      gLessonCurrent.id = 'current';
+    }
     gPendingError = false;
+    
+    // Reset scroll position to top
+    gLesson.scrollTop = 0;
   };
 
   const goNextChar = value => {
@@ -183,8 +222,22 @@ window.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const correctChar = gLessonCurrent.innerText === value ||
-      (value === ' ' && gLessonCurrent.innerText === '');
+    // Handle different types of elements
+    let correctChar = false;
+    
+    if (gLessonCurrent.classList.contains('carriage-return')) {
+      // Line break - check for Enter key
+      correctChar = value === '\n' || value === '\r';
+    } else if (gLessonCurrent.classList.contains('space')) {
+      // Space character
+      correctChar = value === ' ';
+    } else if (gLessonCurrent.classList.contains('tab')) {
+      // Tab character
+      correctChar = value === '\t';
+    } else {
+      // Regular character - compare with the actual text content
+      correctChar = gLessonCurrent.textContent === value;
+    }
 
     if (!correctChar && !gLessonStartTime) {
       return; // ignore errors on first char
@@ -193,7 +246,14 @@ window.addEventListener('DOMContentLoaded', () => {
     if (correctChar) {
       gLessonCurrent.classList.add(gPendingError ? 'fixed' : 'done');
       gLessonCurrent.id = '';
-      gLessonCurrent = gLessonCurrent.nextSibling;
+      
+      // Skip the next element if it's a BR (for carriage returns) or tab-spacing
+      let nextElement = gLessonCurrent.nextSibling;
+      if (nextElement && (nextElement.tagName === 'BR' || nextElement.classList?.contains('tab-spacing'))) {
+        nextElement = nextElement.nextSibling;
+      }
+      
+      gLessonCurrent = nextElement;
       gPendingError = false;
     } else {
       gLessonCurrent.classList.add('error');
@@ -206,9 +266,51 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     if (gLessonCurrent) { // next char
       gLessonCurrent.id = 'current';
+      // Auto-scroll to keep current character in view
+      scrollToCurrentChar();
     } else { // last char, compute stats
       showLessonStatus(performance.now());
       gLessonStartTime = undefined;
+    }
+  };
+
+  const scrollToCurrentChar = () => {
+    if (!gLessonCurrent) return;
+    
+    try {
+      // Get the current character's position relative to the lesson container
+      const currentRect = gLessonCurrent.getBoundingClientRect();
+      const lessonRect = gLesson.getBoundingClientRect();
+      
+      // Calculate relative position within the scrollable container
+      const relativeTop = currentRect.top - lessonRect.top;
+      const relativeBottom = relativeTop + currentRect.height;
+      
+      // Check if we need to scroll
+      const containerHeight = gLesson.clientHeight;
+      const scrollTop = gLesson.scrollTop;
+      
+      // If current character is below visible area (with some margin)
+      if (relativeBottom > containerHeight - 20) {
+        // Scroll to keep the character in view, positioned in upper portion
+        const targetScroll = scrollTop + relativeBottom - containerHeight * 0.7;
+        gLesson.scrollTop = Math.max(0, targetScroll);
+      }
+      // If current character is above visible area
+      else if (relativeTop < 20) {
+        // Scroll up to show the character with some margin
+        const targetScroll = scrollTop + relativeTop - 20;
+        gLesson.scrollTop = Math.max(0, targetScroll);
+      }
+    } catch (e) {
+      // Fallback: if getBoundingClientRect fails, try simple scrollIntoView
+      if (gLessonCurrent.scrollIntoView) {
+        gLessonCurrent.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'nearest',
+          inline: 'nearest'
+        });
+      }
     }
   };
 
@@ -259,6 +361,45 @@ window.addEventListener('DOMContentLoaded', () => {
 
   gQuacks.addEventListener('transitionend', showQuackStatus);
   gQuacks.addEventListener('dblclick', moreQuacks); // cheat code!
+
+  // Toggle custom text panel
+  gToggleCustomText.addEventListener('click', () => {
+    const isVisible = gCustomTextPanel.style.display !== 'none';
+    gCustomTextPanel.style.display = isVisible ? 'none' : 'block';
+    gToggleCustomText.style.background = isVisible ? '#f0f0f0' : '#007acc';
+    gToggleCustomText.style.color = isVisible ? '#333' : 'white';
+  });
+
+  // Custom text functionality
+  gUseCustomText.addEventListener('click', () => {
+    const customText = gCustomText.value.trim();
+    if (customText) {
+      gCustomLessonText = customText;
+      gLesson.classList.add('custom-text-mode');
+      gToggleCustomText.textContent = '📝 Custom Text (Active)';
+      gToggleCustomText.style.background = '#28a745';
+      gToggleCustomText.style.color = 'white';
+      showLesson();
+    }
+  });
+
+  gClearCustomText.addEventListener('click', () => {
+    gCustomText.value = '';
+    gCustomLessonText = null;
+    gLesson.classList.remove('custom-text-mode');
+    gToggleCustomText.textContent = '📝 Custom Text';
+    gToggleCustomText.style.background = '#f0f0f0';
+    gToggleCustomText.style.color = '#333';
+    showLesson();
+  });
+
+  // Allow Enter key in textarea to trigger use custom text
+  gCustomText.addEventListener('keydown', (event) => {
+    if (event.ctrlKey && event.key === 'Enter') {
+      event.preventDefault();
+      gUseCustomText.click();
+    }
+  });
 
   // startup
   const loadLayout = () => {
@@ -313,7 +454,25 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // highlight keyboard keys and emulate the selected layout
   gInput.onkeydown = event => {
+    // Don't intercept events when typing in the custom text area
+    if (event.target === gCustomText) {
+      return true;
+    }
+    
     pressedKeys[event.code] = true;
+    
+    // Handle special keys for custom text mode
+    if (gCustomLessonText) {
+      if (event.key === 'Enter') {
+        goNextChar('\n');
+        return false;
+      } else if (event.key === 'Tab') {
+        event.preventDefault();
+        goNextChar('\t');
+        return false;
+      }
+    }
+    
     const value = gKeyboard.keyDown(event);
 
     if (value) {
@@ -325,6 +484,11 @@ window.addEventListener('DOMContentLoaded', () => {
   };
 
   gInput.addEventListener('keyup', event => {
+    // Don't intercept events when typing in the custom text area
+    if (event.target === gCustomText) {
+      return true;
+    }
+    
     if (pressedKeys[event.code]) { // expected behavior
       gKeyboard.keyUp(event);
       delete pressedKeys[event.code];
